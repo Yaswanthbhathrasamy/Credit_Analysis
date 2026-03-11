@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.env
+venv/
+.venv/
+uploads/
+reports/
+*.joblib
+app/ml/trained_models/
+app/ml/credit_data.csv
+node_modules/
