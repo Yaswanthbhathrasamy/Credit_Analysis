@@ -21,7 +21,7 @@ import {
   PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar,
 } from 'recharts';
 
-const COLORS = ['#0e2535', '#224d64', '#0d9488', '#10b981', '#06b6d4'];
+const COLORS = ['#102a43', '#243b53', '#2563eb', '#3b82f6', '#60a5fa'];
 
 const DOC_TYPE_OPTIONS = [
   { value: 'annual_report', label: 'Annual Report (P&L, Cashflow, Balance Sheet)' },
@@ -142,7 +142,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-12 w-12 text-teal-600 animate-spin" />
+        <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
       </div>
     );
   }
@@ -205,8 +205,8 @@ export default function DashboardPage() {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center space-x-1.5 px-5 py-3 rounded-lg text-base font-medium transition whitespace-nowrap ${
                 activeTab === tab.key
-                  ? 'bg-teal-600 text-white'
-                  : 'text-navy-600 hover:bg-teal-50'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-navy-600 hover:bg-blue-50'
               }`}
             >
               <Icon className="h-5 w-5" />
@@ -285,15 +285,15 @@ function AgentsTab({ agentResults, agentLogs, onRunAll, onRunSingle, loadingAll,
       warnings: agentResults.warning_summary, risk: agentResults.risk_summary };
     return map[agentKey];
   };
-  const colorMap = { blue: 'border-teal-500 bg-teal-50', emerald: 'border-emerald-500 bg-emerald-50',
+  const colorMap = { blue: 'border-blue-500 bg-blue-50', emerald: 'border-emerald-500 bg-emerald-50',
     purple: 'border-purple-500 bg-purple-50', amber: 'border-amber-500 bg-amber-50',
     orange: 'border-orange-500 bg-orange-50', red: 'border-red-500 bg-red-50' };
-  const iconColorMap = { blue: 'text-teal-600', emerald: 'text-emerald-600', purple: 'text-purple-600',
+  const iconColorMap = { blue: 'text-blue-600', emerald: 'text-emerald-600', purple: 'text-purple-600',
     amber: 'text-amber-600', orange: 'text-orange-600', red: 'text-red-600' };
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-navy-900 via-teal-900 to-navy-800 rounded-xl p-6 text-white">
+      <div className="bg-gradient-to-r from-navy-900 via-navy-800 to-navy-900 rounded-xl p-6 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-xl font-bold flex items-center"><Bot className="h-6 w-6 mr-2" /> LangGraph Agent Pipeline</h3>
@@ -353,7 +353,7 @@ function AgentsTab({ agentResults, agentLogs, onRunAll, onRunSingle, loadingAll,
               )}
               <button onClick={() => onRunSingle(agent.key)} disabled={isRunning || loadingAll}
                 className={`w-full flex items-center justify-center space-x-1.5 px-3 py-2 rounded-lg text-sm font-medium transition ${
-                  isRunning || loadingAll ? 'bg-gray-100 text-gray-400' : 'bg-teal-600 text-white hover:bg-teal-700'
+                  isRunning || loadingAll ? 'bg-gray-100 text-gray-400' : 'bg-blue-600 text-white hover:bg-blue-700'
                 }`}>
                 {isRunning ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <PlayCircle className="h-3.5 w-3.5" />}
                 <span>{isRunning ? 'Running...' : 'Run Agent'}</span>
@@ -364,7 +364,7 @@ function AgentsTab({ agentResults, agentLogs, onRunAll, onRunSingle, loadingAll,
       </div>
       {agentLogs.length > 0 && (
         <div className="bg-white rounded-xl shadow-sm border p-6">
-          <h4 className="font-semibold mb-4 flex items-center"><Activity className="h-5 w-5 mr-2 text-teal-600" /> Agent Execution Log</h4>
+          <h4 className="font-semibold mb-4 flex items-center"><Activity className="h-5 w-5 mr-2 text-blue-600" /> Agent Execution Log</h4>
           <div className="space-y-3">
             {agentLogs.map((log, idx) => (
               <div key={idx} className="flex items-start space-x-3">
@@ -447,7 +447,7 @@ function OverviewTab({ summary, riskScore, financials, company }) {
             <ResponsiveContainer width="100%" height={300}>
               <RadarChart data={fiveCsData}>
                 <PolarGrid /><PolarAngleAxis dataKey="subject" /><PolarRadiusAxis angle={30} domain={[0, 10]} />
-                <Radar name="Score" dataKey="score" stroke="#0d9488" fill="#0d9488" fillOpacity={0.3} />
+                <Radar name="Score" dataKey="score" stroke="#2563eb" fill="#2563eb" fillOpacity={0.3} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
@@ -458,7 +458,7 @@ function OverviewTab({ summary, riskScore, financials, company }) {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={Object.entries(riskScore.feature_importance).slice(0, 8).map(([k, v]) => ({ name: k.replace(/_/g, ' '), value: v }))} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" /><XAxis type="number" /><YAxis dataKey="name" type="category" width={120} fontSize={12} />
-                <Tooltip /><Bar dataKey="value" fill="#0d9488" radius={[0, 4, 4, 0]} />
+                <Tooltip /><Bar dataKey="value" fill="#2563eb" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -480,7 +480,7 @@ function OverviewTab({ summary, riskScore, financials, company }) {
 }
 
 function QuickStat({ label, value, color }) {
-  const colorMap = { blue: 'bg-teal-50 text-teal-700', amber: 'bg-amber-50 text-amber-700',
+  const colorMap = { blue: 'bg-blue-50 text-blue-700', amber: 'bg-amber-50 text-amber-700',
     purple: 'bg-purple-50 text-purple-700', green: 'bg-green-50 text-green-700', red: 'bg-red-50 text-red-700' };
   return (
     <div className={`${colorMap[color]} rounded-xl p-5 text-center`}>
@@ -585,15 +585,15 @@ function DocumentsTab({ companyId, documents, onRefresh, actionLoading, setActio
         <div className="flex items-center space-x-4 mb-4">
           <label className="text-sm font-medium text-gray-700">Document Type:</label>
           <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}
-            className="rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500">
+            className="rounded-lg border-gray-300 border px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
             {DOC_TYPE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </div>
-        <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-teal-400 transition">
+        <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition">
           <Upload className="h-10 w-10 text-gray-400 mx-auto mb-3" />
           <p className="text-gray-600 mb-2">Drag & drop or click to upload documents</p>
           <p className="text-sm text-gray-400 mb-4">Supports: PDF, PNG, JPG — Annual Reports, ALM, Shareholding, Borrowing Profile, Portfolio Data</p>
-          <label className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 cursor-pointer transition">
+          <label className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition">
             {uploading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : <Upload className="h-5 w-5 mr-2" />}
             <span>{uploading ? 'Uploading...' : 'Select Files'}</span>
             <input type="file" multiple accept=".pdf,.png,.jpg,.jpeg" onChange={handleFileUpload} className="hidden" disabled={uploading} />
@@ -619,7 +619,7 @@ function DocumentsTab({ companyId, documents, onRefresh, actionLoading, setActio
                     </div>
                     <div className="flex items-center space-x-4 text-xs text-gray-500">
                       <span>Auto-classified: <strong className="text-gray-700">{doc.detected_doc_type || doc.document_type}</strong></span>
-                      {doc.user_corrected_type && <span>User corrected: <strong className="text-teal-700">{doc.user_corrected_type}</strong></span>}
+                      {doc.user_corrected_type && <span>User corrected: <strong className="text-blue-700">{doc.user_corrected_type}</strong></span>}
                       {doc.confidence_score != null && <span>Confidence: {(doc.confidence_score * 100).toFixed(0)}%</span>}
                       {doc.ocr_used && <span className="text-amber-600">OCR Used</span>}
                     </div>
@@ -646,7 +646,7 @@ function DocumentsTab({ companyId, documents, onRefresh, actionLoading, setActio
                       className="rounded-lg border-gray-300 border px-3 py-1.5 text-sm flex-1">
                       {DOC_TYPE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                     </select>
-                    <button onClick={() => handleCorrect(doc.id)} className="px-4 py-1.5 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700">Save</button>
+                    <button onClick={() => handleCorrect(doc.id)} className="px-4 py-1.5 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Save</button>
                     <button onClick={() => setEditingDoc(null)} className="px-4 py-1.5 bg-gray-200 text-gray-700 rounded-lg text-sm hover:bg-gray-300">Cancel</button>
                   </div>
                 )}
@@ -713,13 +713,13 @@ function ResearchTab({ research, onRun, loading }) {
                     finding.sentiment === 'positive' ? 'bg-green-100 text-green-700' :
                     finding.sentiment === 'negative' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
                   }`}>{finding.sentiment || 'neutral'}</span>
-                  <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-teal-100 text-teal-700">{finding.category}</span>
+                  <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-700">{finding.category}</span>
                 </div>
                 <h4 className="font-medium text-gray-900">{finding.title}</h4>
               </div>
             </div>
             <p className="text-sm text-gray-600 mt-2">{finding.summary}</p>
-            {finding.source_url && <a href={finding.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-teal-600 hover:underline mt-2 block">View Source</a>}
+            {finding.source_url && <a href={finding.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline mt-2 block">View Source</a>}
           </div>
         ))
       )}
@@ -785,12 +785,12 @@ function WarningsTab({ flags, onDetect, loading }) {
         flags.map((flag, idx) => (
           <div key={flag.id || idx} className={`rounded-xl border-l-4 p-5 bg-white shadow-sm ${
             flag.severity === 'critical' ? 'border-l-red-600' : flag.severity === 'high' ? 'border-l-orange-500' :
-            flag.severity === 'medium' ? 'border-l-amber-400' : 'border-l-teal-400'
+            flag.severity === 'medium' ? 'border-l-amber-400' : 'border-l-blue-400'
           }`}>
             <div className="flex items-center space-x-2 mb-1">
               <span className={`px-2 py-0.5 text-xs font-bold rounded ${
                 flag.severity === 'critical' ? 'bg-red-100 text-red-700' : flag.severity === 'high' ? 'bg-orange-100 text-orange-700' :
-                flag.severity === 'medium' ? 'bg-amber-100 text-amber-700' : 'bg-teal-100 text-teal-700'
+                flag.severity === 'medium' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
               }`}>{flag.severity?.toUpperCase()}</span>
               <span className="text-xs text-gray-500">{flag.flag_type?.replace(/_/g, ' ')}</span>
             </div>
@@ -815,7 +815,7 @@ function SWOTTab({ swotData, onGenerate, loading }) {
   const colorMap = {
     green: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', icon: 'text-green-600', bullet: 'bg-green-500' },
     red: { bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', icon: 'text-red-600', bullet: 'bg-red-500' },
-    blue: { bg: 'bg-teal-50', border: 'border-teal-200', text: 'text-teal-700', icon: 'text-teal-600', bullet: 'bg-teal-500' },
+    blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', icon: 'text-blue-600', bullet: 'bg-blue-500' },
     orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', icon: 'text-orange-600', bullet: 'bg-orange-500' },
   };
 
@@ -910,7 +910,7 @@ function RiskTab({ riskScore, onCalculate, loading, dueDiligenceNotes, onSaveNot
             </div>
             <div className="bg-white rounded-xl shadow-sm border p-6 text-center">
               <p className="text-sm text-gray-500 mb-2">Suggested Interest Rate</p>
-              <p className="text-4xl font-bold text-teal-600">{riskScore.suggested_interest_rate ? `${riskScore.suggested_interest_rate}%` : 'N/A'}</p>
+              <p className="text-4xl font-bold text-blue-600">{riskScore.suggested_interest_rate ? `${riskScore.suggested_interest_rate}%` : 'N/A'}</p>
               <p className="text-sm text-gray-500 mt-2">Per Annum</p>
             </div>
           </div>
@@ -936,7 +936,7 @@ function RiskTab({ riskScore, onCalculate, loading, dueDiligenceNotes, onSaveNot
 
           {riskScore.five_cs_evaluation && (
             <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h4 className="font-semibold mb-4 flex items-center"><Shield className="h-5 w-5 mr-2 text-teal-600" /> Five Cs Credit Evaluation</h4>
+              <h4 className="font-semibold mb-4 flex items-center"><Shield className="h-5 w-5 mr-2 text-blue-600" /> Five Cs Credit Evaluation</h4>
               <div className="space-y-4">
                 {['character', 'capacity', 'capital', 'collateral', 'conditions'].map((cs) => {
                   const data = riskScore.five_cs_evaluation[cs];
@@ -954,7 +954,7 @@ function RiskTab({ riskScore, onCalculate, loading, dueDiligenceNotes, onSaveNot
                       <p className="text-sm text-gray-600 mb-1">{data.assessment}</p>
                       {data.reasoning?.length > 0 && (
                         <ul className="mt-2 space-y-1">{data.reasoning.map((r, i) => (
-                          <li key={i} className="text-xs text-gray-500 flex items-start"><span className="mr-1.5 mt-0.5 text-teal-400">•</span>{r}</li>
+                          <li key={i} className="text-xs text-gray-500 flex items-start"><span className="mr-1.5 mt-0.5 text-blue-400">•</span>{r}</li>
                         ))}</ul>
                       )}
                     </div>
@@ -966,7 +966,7 @@ function RiskTab({ riskScore, onCalculate, loading, dueDiligenceNotes, onSaveNot
 
           {riskScore.reasoning_narrative && (
             <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h4 className="font-semibold mb-3 flex items-center"><BookOpen className="h-5 w-5 mr-2 text-teal-600" /> AI Reasoning Narrative</h4>
+              <h4 className="font-semibold mb-3 flex items-center"><BookOpen className="h-5 w-5 mr-2 text-blue-600" /> AI Reasoning Narrative</h4>
               <p className="text-xs text-gray-400 mb-4">Step-by-step walkthrough of the credit decision logic</p>
               <div className="prose prose-sm max-w-none text-gray-700">
                 {riskScore.reasoning_narrative.split('\n').map((line, i) => {
@@ -985,9 +985,9 @@ function RiskTab({ riskScore, onCalculate, loading, dueDiligenceNotes, onSaveNot
           <div className="bg-white rounded-xl shadow-sm border p-6">
             <h4 className="font-semibold mb-3 flex items-center"><ClipboardList className="h-5 w-5 mr-2" /> Due Diligence Notes</h4>
             <textarea value={dueDiligenceNotes} onChange={(e) => setDueDiligenceNotes(e.target.value)} rows={4}
-              className="w-full rounded-lg border-gray-300 border px-4 py-2.5 focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              className="w-full rounded-lg border-gray-300 border px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Enter your due diligence notes here..." />
-            <button onClick={() => onSaveNotes(dueDiligenceNotes)} className="mt-3 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-sm">Save Notes</button>
+            <button onClick={() => onSaveNotes(dueDiligenceNotes)} className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm">Save Notes</button>
           </div>
         </>
       )}
@@ -999,7 +999,7 @@ function RiskTab({ riskScore, onCalculate, loading, dueDiligenceNotes, onSaveNot
 function ReportTab({ onDownload, loading, summary, swotData }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border p-8 text-center">
-      <FileDown className="h-16 w-16 text-teal-600 mx-auto mb-4" />
+      <FileDown className="h-16 w-16 text-blue-600 mx-auto mb-4" />
       <h3 className="text-xl font-semibold mb-2">Credit Appraisal Memorandum</h3>
       <p className="text-gray-500 mb-6 max-w-lg mx-auto">
         Generate a comprehensive CAM report including company overview, financial summary,
@@ -1014,7 +1014,7 @@ function ReportTab({ onDownload, loading, summary, swotData }) {
         <ReportCheckItem label="Risk Score" ready={summary?.has_risk_score} />
       </div>
       <button onClick={onDownload} disabled={loading}
-        className="inline-flex items-center px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 transition font-medium text-lg">
+        className="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition font-medium text-lg">
         {loading ? <Loader2 className="h-5 w-5 animate-spin mr-2" /> : <FileDown className="h-5 w-5 mr-2" />}
         <span>{loading ? 'Generating...' : 'Download CAM Report (.docx)'}</span>
       </button>
@@ -1034,7 +1034,7 @@ function ReportCheckItem({ label, ready }) {
 function ActionButton({ onClick, loading, icon: Icon, label }) {
   return (
     <button onClick={onClick} disabled={loading}
-      className="flex items-center space-x-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 transition text-sm font-medium">
+      className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition text-sm font-medium">
       {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Icon className="h-4 w-4" />}<span>{loading ? 'Processing...' : label}</span>
     </button>
   );

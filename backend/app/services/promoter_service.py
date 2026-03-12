@@ -100,9 +100,9 @@ class PromoterRiskService:
         prompt = ChatPromptTemplate.from_messages([
             ("system", """You are a corporate research analyst specializing in Indian companies.
 Given a company name, return the names of 2-4 key promoters, directors, or senior management personnel.
-Return ONLY a JSON array of full names. Example: ["John Doe", "Jane Smith"]
+Return ONLY a valid JSON array of full names. Example: ["John Doe", "Jane Smith"]
 If you are not sure about specific names, provide the most likely senior leadership based on your knowledge.
-Do not include markdown fencing."""),
+Do not include markdown fencing or any other text outside the JSON array."""),
             ("human", "Company: {company_name}\nReturn the key promoters/directors as a JSON array."),
         ])
         try:
@@ -113,10 +113,21 @@ Do not include markdown fencing."""),
             json_match = re.search(r'```(?:json)?\s*([\s\S]*?)```', raw)
             if json_match:
                 raw = json_match.group(1).strip()
+            # Extract just the JSON array portion
+            array_match = re.search(r'\[[\s\S]*\]', raw)
+            if array_match:
+                raw = array_match.group(0)
             names = json.loads(raw)
             if isinstance(names, list) and all(isinstance(n, str) for n in names):
                 logger.info(f"GPT identified {len(names)} promoters for {company_name}: {names}")
                 return names[:4]
+        except json.JSONDecodeError:
+            # Fallback: try to extract quoted names from the raw response
+            fallback_names = re.findall(r'"([A-Z][a-zA-Z\s.]+?)"', raw if 'raw' in dir() else response.content)
+            if fallback_names:
+                logger.info(f"GPT promoter ID fallback extracted: {fallback_names}")
+                return fallback_names[:4]
+            logger.error(f"GPT promoter identification failed: could not parse JSON from response")
         except Exception as e:
             logger.error(f"GPT promoter identification failed: {e}")
         return []

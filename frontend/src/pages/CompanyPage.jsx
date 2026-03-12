@@ -114,8 +114,8 @@ export default function CompanyPage() {
       <section className="bg-white border-b border-navy-100 py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-teal-50 rounded-xl">
-              <Building2 className="h-7 w-7 text-teal-600" />
+            <div className="p-2.5 bg-blue-50 rounded-xl">
+              <Building2 className="h-7 w-7 text-blue-600" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-navy-900">New Credit Analysis</h1>
@@ -137,7 +137,7 @@ export default function CompanyPage() {
                 <button
                   onClick={() => { if (idx < currentStep) setCurrentStep(idx); }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition text-sm font-medium ${
-                    isActive ? 'bg-teal-600 text-white' :
+                    isActive ? 'bg-blue-600 text-white' :
                     isComplete ? 'bg-green-100 text-green-700 hover:bg-green-200' :
                     'bg-gray-100 text-gray-400'
                   }`}
@@ -271,7 +271,7 @@ function StepCard({ title, subtitle, icon, children }) {
   return (
     <div className="card p-8">
       <div className="flex items-center space-x-3 pb-4 border-b border-navy-100 mb-6">
-        <div className="p-2 bg-teal-50 rounded-lg text-teal-600">{icon}</div>
+        <div className="p-2 bg-blue-50 rounded-lg text-blue-600">{icon}</div>
         <div>
           <h2 className="text-lg font-bold text-navy-900">{title}</h2>
           <p className="text-xs text-navy-500">{subtitle}</p>

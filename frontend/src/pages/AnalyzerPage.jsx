@@ -43,7 +43,7 @@ export default function AnalyzerPage() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-navy-900 flex items-center space-x-3">
-                <BarChart3 className="h-7 w-7 text-teal-600" />
+                <BarChart3 className="h-7 w-7 text-blue-600" />
                 <span>Credit Analyzer</span>
               </h1>
               <p className="text-navy-500 mt-1">Manage and track all company credit analyses</p>
@@ -74,7 +74,7 @@ export default function AnalyzerPage() {
                   onClick={() => setFilter(f)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
                     filter === f
-                      ? 'bg-teal-600 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-navy-50 text-navy-600 hover:bg-navy-100'
                   }`}
                 >
@@ -90,7 +90,7 @@ export default function AnalyzerPage() {
       <section className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
           <div className="flex justify-center py-16">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-teal-600"></div>
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 card rounded-2xl">
@@ -125,8 +125,8 @@ function AnalyzerRow({ company }) {
       className="card p-6 flex items-center justify-between hover:shadow-md transition group block"
     >
       <div className="flex items-center space-x-4 flex-1 min-w-0">
-        <div className="p-2.5 bg-teal-50 rounded-lg flex-shrink-0">
-          <Building2 className="h-5 w-5 text-teal-600" />
+        <div className="p-2.5 bg-blue-50 rounded-lg flex-shrink-0">
+          <Building2 className="h-5 w-5 text-blue-600" />
         </div>
         <div className="min-w-0">
           <h3 className="font-semibold text-navy-900 truncate group-hover:text-navy-700">

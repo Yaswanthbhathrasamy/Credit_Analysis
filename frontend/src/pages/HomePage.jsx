@@ -32,19 +32,19 @@ export default function HomePage() {
       <section className="gradient-hero text-white py-20 px-4 relative overflow-hidden">
         {/* Decorative bg elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl"></div>
         </div>
         <div className="max-w-7xl mx-auto relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center space-x-2 bg-teal-500/15 ring-1 ring-teal-500/30 rounded-full px-4 py-1.5 mb-6">
-                <Zap className="h-4 w-4 text-teal-300" />
-                <span className="text-sm font-medium text-teal-200">AI-Powered Credit Decisioning</span>
+              <div className="inline-flex items-center space-x-2 bg-blue-500/15 ring-1 ring-blue-500/30 rounded-full px-4 py-1.5 mb-6">
+                <Zap className="h-4 w-4 text-blue-300" />
+                <span className="text-sm font-medium text-blue-200">AI-Powered Credit Decisioning</span>
               </div>
               <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
                 Intelligent Corporate
-                <span className="bg-gradient-to-r from-teal-300 to-emerald-300 bg-clip-text text-transparent"> Credit Analysis</span>
+                <span className="bg-gradient-to-r from-blue-300 to-white bg-clip-text text-transparent"> Credit Analysis</span>
               </h1>
               <p className="text-lg text-navy-200 mb-8 leading-relaxed max-w-xl">
                 Automate Credit Appraisal Memos (CAM) for Indian mid-sized corporates.
@@ -56,7 +56,7 @@ export default function HomePage() {
                   <span>Start New Analysis</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-                <Link to="/analyzer" className="btn-secondary !bg-transparent !text-white !border-teal-400/30 hover:!bg-teal-500/10">
+                <Link to="/analyzer" className="btn-secondary !bg-transparent !text-white !border-blue-400/30 hover:!bg-blue-500/10">
                   <span>View Dashboard</span>
                   <ChevronRight className="ml-1 h-4 w-4" />
                 </Link>
@@ -93,12 +93,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           {loading ? (
             <div className="flex justify-center py-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <StatCard
-                icon={<Building2 className="h-5 w-5 text-teal-600" />}
+                icon={<Building2 className="h-5 w-5 text-blue-600" />}
                 label="Total Companies"
                 value={companies.length}
                 color="teal"
@@ -110,13 +110,13 @@ export default function HomePage() {
                 color="amber"
               />
               <StatCard
-                icon={<CheckCircle className="h-5 w-5 text-emerald-600" />}
+                icon={<CheckCircle className="h-5 w-5 text-green-600" />}
                 label="Completed"
                 value={companies.filter((c) => c.loan_amount_requested).length}
                 color="emerald"
               />
               <StatCard
-                icon={<TrendingUp className="h-5 w-5 text-cyan-600" />}
+                icon={<TrendingUp className="h-5 w-5 text-blue-600" />}
                 label="Active Reviews"
                 value={companies.length}
                 color="cyan"
@@ -166,7 +166,7 @@ export default function HomePage() {
       {/* Three Pillars Section */}
       <section className="bg-navy-900 text-white py-16 px-4 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 right-1/4 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
         </div>
         <div className="max-w-7xl mx-auto text-center mb-12 relative">
           <h2 className="text-3xl font-bold mb-4">Three Pillars of Analysis</h2>
@@ -199,8 +199,8 @@ export default function HomePage() {
 
 function FeatureCard({ icon, title, desc }) {
   return (
-    <div className="bg-teal-500/10 backdrop-blur-sm rounded-xl p-5 border border-teal-500/20 hover:bg-teal-500/15 transition">
-      <div className="text-teal-300 mb-3">{icon}</div>
+    <div className="bg-blue-500/10 backdrop-blur-sm rounded-xl p-5 border border-blue-500/20 hover:bg-blue-500/15 transition">
+      <div className="text-blue-300 mb-3">{icon}</div>
       <h3 className="font-semibold text-sm mb-1">{title}</h3>
       <p className="text-navy-300 text-xs leading-relaxed">{desc}</p>
     </div>
@@ -209,10 +209,10 @@ function FeatureCard({ icon, title, desc }) {
 
 function StatCard({ icon, label, value, color }) {
   const bgMap = {
-    teal: 'bg-teal-50',
+    teal: 'bg-blue-50',
     amber: 'bg-amber-50',
-    emerald: 'bg-emerald-50',
-    cyan: 'bg-cyan-50',
+    emerald: 'bg-green-50',
+    cyan: 'bg-blue-50',
   };
   return (
     <div className={`${bgMap[color]} rounded-xl p-5 border border-navy-100`}>
@@ -235,11 +235,11 @@ function CompanyCard({ company }) {
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-teal-50 rounded-lg">
-            <Building2 className="h-5 w-5 text-teal-600" />
+          <div className="p-2 bg-blue-50 rounded-lg">
+            <Building2 className="h-5 w-5 text-blue-600" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-navy-900 group-hover:text-teal-700">
+            <h3 className="text-base font-semibold text-navy-900 group-hover:text-blue-700">
               {company.name}
             </h3>
             <p className="text-sm text-navy-500">
@@ -247,7 +247,7 @@ function CompanyCard({ company }) {
             </p>
           </div>
         </div>
-        <ArrowRight className="h-5 w-5 text-navy-300 group-hover:text-teal-600 transition" />
+        <ArrowRight className="h-5 w-5 text-navy-300 group-hover:text-blue-600 transition" />
       </div>
       <div className="mt-4 pt-4 border-t border-navy-100 flex items-center justify-between text-sm">
         <span className="font-medium text-navy-700">
@@ -265,13 +265,13 @@ function CompanyCard({ company }) {
 
 function PillarCard({ number, title, items }) {
   return (
-    <div className="bg-navy-800/50 rounded-2xl p-8 border border-teal-800/30 hover:border-teal-500/40 transition">
-      <span className="text-teal-400 text-4xl font-bold opacity-40">{number}</span>
+    <div className="bg-navy-800/50 rounded-2xl p-8 border border-navy-700/30 hover:border-blue-500/40 transition">
+      <span className="text-blue-400 text-4xl font-bold opacity-40">{number}</span>
       <h3 className="text-xl font-bold mt-2 mb-4">{title}</h3>
       <ul className="space-y-2">
         {items.map((item, i) => (
           <li key={i} className="flex items-start space-x-2 text-sm text-navy-300">
-            <CheckCircle className="h-4 w-4 text-teal-400 mt-0.5 flex-shrink-0" />
+            <CheckCircle className="h-4 w-4 text-blue-400 mt-0.5 flex-shrink-0" />
             <span>{item}</span>
           </li>
         ))}

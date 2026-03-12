@@ -29,6 +29,7 @@ services:
       db:
         condition: service_healthy
     volumes:
+      - ./backend:/app
       - ./backend/uploads:/app/uploads
       - ./backend/reports:/app/reports
 

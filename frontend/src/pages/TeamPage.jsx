@@ -56,7 +56,7 @@ export default function TeamPage() {
       {/* Developers */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-2 block">Human Team</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">Human Team</span>
           <h2 className="text-3xl font-bold text-navy-900">Developers</h2>
           <p className="text-navy-500 mt-2">The engineers behind the platform</p>
         </div>
@@ -71,7 +71,7 @@ export default function TeamPage() {
       <section className="bg-navy-50 border-t border-navy-100 py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-2 block">AI Agents</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">AI Agents</span>
             <h2 className="text-3xl font-bold text-navy-900">Analyzers</h2>
             <p className="text-navy-500 mt-2">
               Autonomous AI agents that power the credit analysis pipeline
@@ -88,8 +88,8 @@ export default function TeamPage() {
       {/* LangSmith Monitoring */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="card-elevated p-8 text-center">
-          <div className="inline-flex items-center justify-center p-3 bg-teal-50 rounded-xl mb-4">
-            <Brain className="h-8 w-8 text-teal-600" />
+          <div className="inline-flex items-center justify-center p-3 bg-blue-50 rounded-xl mb-4">
+            <Brain className="h-8 w-8 text-blue-600" />
           </div>
           <h3 className="text-2xl font-bold text-navy-900 mb-2">AI Monitoring with LangSmith</h3>
           <p className="text-navy-500 max-w-xl mx-auto mb-6">
@@ -121,14 +121,14 @@ function TeamCard({ member, isAI = false }) {
   return (
     <div className="card p-6 hover:shadow-lg transition-all duration-300">
       <div className="flex items-start space-x-4">
-        <div className={`p-3 rounded-xl ${isAI ? 'bg-teal-50' : 'bg-navy-50'}`}>
-          <Icon className={`h-6 w-6 ${isAI ? 'text-teal-600' : 'text-navy-600'}`} />
+        <div className={`p-3 rounded-xl ${isAI ? 'bg-blue-50' : 'bg-navy-50'}`}>
+          <Icon className={`h-6 w-6 ${isAI ? 'text-blue-600' : 'text-navy-600'}`} />
         </div>
         <div className="flex-1">
           <div className="flex items-center space-x-2">
             <h3 className="font-bold text-navy-900">{member.name}</h3>
             {isAI && (
-              <span className="text-[10px] font-bold uppercase bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-bold uppercase bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
                 AI Agent
               </span>
             )}

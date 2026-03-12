@@ -24,7 +24,7 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-teal-600 mb-2 block">Our Mission</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-2 block">Our Mission</span>
             <h2 className="text-3xl font-bold text-navy-900 mb-4">
               Transforming Corporate Credit Assessment in India
             </h2>
@@ -130,13 +130,13 @@ function InfoCard({ icon, title, desc }) {
 
 function TechCard({ icon, category, items }) {
   return (
-    <div className="bg-navy-800/50 rounded-xl p-6 border border-teal-800/30">
-      <div className="text-teal-400 mb-3">{icon}</div>
+    <div className="bg-navy-800/50 rounded-xl p-6 border border-navy-700/30">
+      <div className="text-blue-400 mb-3">{icon}</div>
       <h3 className="font-bold text-lg mb-3">{category}</h3>
       <ul className="space-y-2">
         {items.map((item, i) => (
           <li key={i} className="text-sm text-navy-300 flex items-center space-x-2">
-            <div className="h-1.5 w-1.5 rounded-full bg-teal-400"></div>
+            <div className="h-1.5 w-1.5 rounded-full bg-blue-400"></div>
             <span>{item}</span>
           </li>
         ))}
