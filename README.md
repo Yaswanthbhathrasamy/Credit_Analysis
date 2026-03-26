@@ -19,6 +19,60 @@ User → React Dashboard → FastAPI Backend → PostgreSQL
          └──────────────────────────────────────┘
 ```
 
+### System Architecture Diagram — Image Generation Prompt
+
+> **Use the prompt below with any AI image generator (Midjourney, DALL·E, Figma AI, Excalidraw AI, etc.) to produce a professional system architecture diagram for Intelli-Credit.**
+
+```text
+Create a detailed, professional system architecture diagram for "Intelli-Credit — AI-Powered Corporate Credit Decisioning Platform". Use a clean, modern tech blueprint style with a dark navy (#0f172a) or white background, neon-accent connecting lines, and clearly labeled component boxes with rounded corners and subtle drop shadows. Use a left-to-right or top-to-bottom data flow layout.
+
+LAYER 1 — CLIENT LAYER (top / left):
+- "React 18 + Vite + Tailwind CSS" frontend box.
+  - Sub-components inside: HomePage (Company Listing), CompanyPage (New Company Form), DashboardPage (Analysis Dashboard with Recharts charts), AnalyzerPage, AboutPage, TeamPage, ContactPage.
+  - Arrow labeled "REST API (Axios)" pointing to the backend.
+
+LAYER 2 — API GATEWAY (middle):
+- "FastAPI Backend" large box (Python).
+  - Show "routes.py" as the single entry router.
+  - Inside list key endpoints vertically: POST /upload-documents, POST /extract-financial-data, POST /run-research-agent, POST /run-crew-research, POST /run-promoter-analysis, POST /detect-early-warning, POST /calculate-risk-score, GET /generate-cam-report, GET /dashboard-summary.
+  - Arrow down to "PostgreSQL 14+" database cylinder, labeled "SQLAlchemy ORM".
+  - Database tables listed on/next to the cylinder: Company, Document, FinancialMetric, RiskFlag, ResearchFinding, PromoterAnalysis, RiskScore.
+
+LAYER 3 — THREE PILLARS (center, side by side):
+
+  PILLAR 1 — "Data Ingestor":
+    Box 1: "DocumentProcessor" — icons/labels: PyMuPDF (fitz) text extraction, PaddleOCR (Hindi + English bilingual), image preprocessing (contrast, sharpen, autocontrast), smart OCR detection (garbled text, image ratio, word density), Indian doc-type detection (GSTR, CIBIL, Annual Report, ITR, Bank Statement, MCA Filing), table extraction.
+    Box 2: "FinancialExtractionService" — icons/labels: OpenAI GPT-4o-mini via LangChain, document-type-aware prompts, 30+ Pydantic financial fields, Indian amount normalization (lakh/crore), ratio computation (DSCR, current ratio, debt-to-equity), extraction reasoning audit trail.
+    Box 3: "FinancialValidationService" — icons/labels: cross-source revenue/profit discrepancy check (15% threshold), balance sheet sanity (Assets ≥ Liabilities + Equity), ratio anomaly detection, GST reconciliation (GSTR-2A vs 3B ITC mismatch), CIBIL flag check (score < 650, DPD > 0, wilful defaulter), RBI SMA/NPA classification (SMA-0/1/2), auditor qualification flags, RBI prudential norms check. Output: RiskFlag objects with severity levels (low/medium/high/critical).
+
+  PILLAR 2 — "Research Agent":
+    Box 1: "ResearchIntelligenceService" — icons/labels: SerpAPI (gl=in, hl=en India-focused), BeautifulSoup web scraping (10KB page limit), GPT sentiment + relevance scoring (0.0–1.0 scale), query categories: litigation, regulatory, GST compliance, NPA/default, environmental.
+    Box 2: "CrewAIResearchService" — icons/labels: LangChain multi-chain orchestration, 3 specialized analyst agents (News Analyst → ET, Moneycontrol, Business Standard; Regulatory Analyst → SEBI, RBI, NCLT, DRT; Sector Analyst → industry outlook, commodity/macro impact), Synthesis chain → Five Cs credit risk mapping.
+    Box 3: "PromoterRiskService" — icons/labels: director-level web search, GPT risk assessment, flags: bankruptcy, fraud, regulatory, criminal; risk_level classification output.
+
+  PILLAR 3 — "Recommendation Engine":
+    Box 1: "RiskScoringService" — icons/labels: scikit-learn ML ensemble (Random Forest, Logistic Regression, Gradient Boosting), 12-feature vector (revenue, profit margin, debt ratio, current ratio, GST filings, litigation flags, sector growth, promoter risk, years in business, interest coverage, revenue growth, cash flow status), best model auto-selected by AUC-ROC, SHAP explainability (positive/negative factor breakdown), Five Cs evaluation (Character, Capacity, Capital, Collateral, Conditions), decision output: Approve / Reject / Conditional + loan limit + interest rate, reasoning narrative ("walk the judge through the logic").
+    Box 2: "CAMReportService" — icons/labels: python-docx .docx generation, sections: executive summary, company profile, financial analysis, research findings, promoter analysis, risk assessment, SHAP explanation, loan recommendation, terms & conditions.
+
+LAYER 4 — EXTERNAL SERVICES (bottom / right):
+  - "OpenAI GPT-4o-mini" cloud icon with LangChain connector.
+  - "SerpAPI" cloud icon (Indian web search).
+  - "PaddleOCR Engine" icon (Hindi + English).
+  - "PostgreSQL" database cylinder.
+
+LAYER 5 — INFRASTRUCTURE:
+  - "Docker Compose" wrapping the entire stack.
+  - Container boxes: frontend (port 3000), backend (port 8000), postgres (port 5432).
+  - Arrows showing container networking.
+
+ADDITIONAL DETAILS:
+  - Show data flow arrows with labels: "PDF/Scanned Docs" → Document Processor → "Extracted Text" → Financial Extraction → "Structured JSON" → Validation → "Risk Flags" → Risk Scoring → "ML Prediction + SHAP" → CAM Report → "Downloadable .docx".
+  - Color-code the three pillars: Data Ingestor (blue/cyan), Research Agent (green/emerald), Recommendation Engine (orange/amber).
+  - Indian context badge/icon near relevant components showing: ₹ INR (lakhs/crores), FY April–March, GST (GSTR-1/2A/2B/3B), CIBIL, RBI IRAC norms, Ind-AS, MCA/ROC filings.
+  - Include a legend box explaining the color coding and arrow types.
+  - Style: flat design, no 3D effects, sans-serif fonts (Inter or similar), high contrast for readability, suitable for printing on A3 paper or embedding in a presentation.
+```
+
 ## Tech Stack
 
 | Layer | Technology |

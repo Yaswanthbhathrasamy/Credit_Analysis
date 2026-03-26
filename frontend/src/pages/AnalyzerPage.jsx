@@ -11,6 +11,7 @@ export default function AnalyzerPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadCompanies();
@@ -20,8 +21,10 @@ export default function AnalyzerPage() {
     try {
       const res = await getCompanies();
       setCompanies(res.data);
+      setError(null);
     } catch (err) {
       console.error('Failed to load companies:', err);
+      setError('Failed to load companies. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -30,8 +33,8 @@ export default function AnalyzerPage() {
   const filtered = companies.filter((c) => {
     const matchSearch = c.name.toLowerCase().includes(search.toLowerCase()) ||
       (c.industry || '').toLowerCase().includes(search.toLowerCase());
-    if (filter === 'pending') return matchSearch && !c.loan_amount_requested;
-    if (filter === 'completed') return matchSearch && c.loan_amount_requested;
+    if (filter === 'pending') return matchSearch && (c.loan_amount_requested == null);
+    if (filter === 'completed') return matchSearch && (c.loan_amount_requested != null);
     return matchSearch;
   });
 
@@ -91,6 +94,14 @@ export default function AnalyzerPage() {
         {loading ? (
           <div className="flex justify-center py-16">
             <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12 card rounded-2xl border-red-200 bg-red-50">
+            <AlertTriangle className="h-12 w-12 text-red-400 mx-auto mb-3" />
+            <h3 className="text-lg font-semibold text-red-800">{error}</h3>
+            <button onClick={() => { setError(null); setLoading(true); loadCompanies(); }} className="btn-secondary text-sm mt-4">
+              Retry
+            </button>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20 card rounded-2xl">

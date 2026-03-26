@@ -10,6 +10,7 @@ import {
 export default function HomePage() {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     loadCompanies();
@@ -21,6 +22,7 @@ export default function HomePage() {
       setCompanies(res.data);
     } catch (err) {
       console.error('Failed to load companies:', err);
+      setError('Failed to load companies. Please try again later.');
     } finally {
       setLoading(false);
     }
@@ -142,7 +144,15 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {!loading && companies.length === 0 ? (
+        {error ? (
+          <div className="text-center py-12 card rounded-2xl border-red-200 bg-red-50">
+            <AlertTriangle className="h-12 w-12 text-red-400 mx-auto mb-3" />
+            <h3 className="text-lg font-semibold text-red-800">{error}</h3>
+            <button onClick={() => { setError(null); setLoading(true); loadCompanies(); }} className="btn-secondary text-sm mt-4">
+              Retry
+            </button>
+          </div>
+        ) : !loading && companies.length === 0 ? (
           <div className="text-center py-20 card rounded-2xl">
             <Building2 className="h-16 w-16 text-navy-200 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-navy-900">No companies yet</h3>

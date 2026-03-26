@@ -50,7 +50,7 @@ export default function CompanyPage() {
       if (!form.pan.trim()) errs.pan = 'PAN is required';
       else if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(form.pan.toUpperCase()))
         errs.pan = 'Invalid PAN format (e.g., ABCDE1234F)';
-      if (form.gst_number && !/^\d{2}[A-Z]{5}\d{4}[A-Z]\d[Z][A-Z\d]$/.test(form.gst_number.toUpperCase()))
+      if (form.gst_number && !/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d][A-Z][A-Z\d]$/.test(form.gst_number.toUpperCase()))
         errs.gst_number = 'Invalid GST format (e.g., 27ABCDE1234F1Z5)';
       if (form.cin && form.cin.length > 0 && form.cin.length !== 21)
         errs.cin = 'CIN must be 21 characters';

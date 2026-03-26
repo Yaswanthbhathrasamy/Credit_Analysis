@@ -69,17 +69,17 @@ export default function DashboardPage() {
         getRiskFlags(id), getRiskScore(id), getDocuments(id), getSWOT(id),
       ]);
 
-      if (finRes.status === 'fulfilled') setFinancials(finRes.value.data);
-      if (researchRes.status === 'fulfilled') setResearch(researchRes.value.data);
-      if (promoterRes.status === 'fulfilled') setPromoters(promoterRes.value.data);
-      if (flagsRes.status === 'fulfilled') setRiskFlags(flagsRes.value.data);
-      if (scoreRes.status === 'fulfilled' && scoreRes.value.data) {
+      if (finRes.status === 'fulfilled' && finRes.value?.data) setFinancials(finRes.value.data);
+      if (researchRes.status === 'fulfilled' && researchRes.value?.data) setResearch(researchRes.value.data);
+      if (promoterRes.status === 'fulfilled' && promoterRes.value?.data) setPromoters(promoterRes.value.data);
+      if (flagsRes.status === 'fulfilled' && flagsRes.value?.data) setRiskFlags(flagsRes.value.data);
+      if (scoreRes.status === 'fulfilled' && scoreRes.value?.data) {
         setRiskScore(scoreRes.value.data);
         if (scoreRes.value.data?.due_diligence_notes)
           setDueDiligenceNotes(scoreRes.value.data.due_diligence_notes);
       }
-      if (docsRes.status === 'fulfilled') setDocuments(docsRes.value.data);
-      if (swotRes.status === 'fulfilled' && swotRes.value.data?.length > 0)
+      if (docsRes.status === 'fulfilled' && docsRes.value?.data) setDocuments(docsRes.value.data);
+      if (swotRes.status === 'fulfilled' && swotRes.value?.data?.length > 0)
         setSwotData(swotRes.value.data[0]);
     } catch (err) {
       console.error('Failed to load data:', err);

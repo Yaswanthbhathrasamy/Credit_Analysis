@@ -8,7 +8,7 @@ import uuid
 import logging
 from typing import List
 
-from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
+from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException, Path
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
@@ -46,6 +46,15 @@ settings = get_settings()
 router = APIRouter()
 
 
+def _validate_uuid(value: str, field_name: str = "company_id") -> str:
+    """Validate that a string is a valid UUID format."""
+    try:
+        uuid.UUID(value)
+    except (ValueError, AttributeError):
+        raise HTTPException(status_code=400, detail=f"Invalid {field_name} format")
+    return value
+
+
 # ─── Company Endpoints ───
 
 @router.post("/companies", response_model=CompanyResponse)
@@ -67,6 +76,7 @@ def list_companies(db: Session = Depends(get_db)):
 @router.get("/companies/{company_id}", response_model=CompanyResponse)
 def get_company(company_id: str, db: Session = Depends(get_db)):
     """Get company details."""
+    _validate_uuid(company_id)
     company = db.query(Company).filter(Company.id == company_id).first()
     if not company:
         raise HTTPException(status_code=404, detail="Company not found")
@@ -87,17 +97,34 @@ async def upload_documents(
     if not company:
         raise HTTPException(status_code=404, detail="Company not found")
 
+    ALLOWED_EXTENSIONS = {".pdf", ".png", ".jpg", ".jpeg", ".tiff", ".tif"}
+    MAX_FILE_SIZE = 50 * 1024 * 1024  # 50 MB per file
+
     os.makedirs(settings.upload_dir, exist_ok=True)
     uploaded_docs = []
 
     for file in files:
-        # Generate safe filename
-        ext = os.path.splitext(file.filename or "document.pdf")[1]
+        # Validate file extension
+        ext = os.path.splitext(file.filename or "document.pdf")[1].lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail=f"File type '{ext}' not allowed. Accepted: {', '.join(ALLOWED_EXTENSIONS)}",
+            )
+
+        # Generate safe filename (prevents path traversal)
         safe_filename = f"{uuid.uuid4().hex}{ext}"
         file_path = os.path.join(settings.upload_dir, safe_filename)
 
-        # Save file
+        # Read and validate file size
         content = await file.read()
+        if len(content) > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=400,
+                detail=f"File '{file.filename}' exceeds maximum size of 50 MB.",
+            )
+
+        # Save file
         with open(file_path, "wb") as f:
             f.write(content)
 
@@ -220,6 +247,7 @@ def extract_financial_data(
 @router.get("/companies/{company_id}/financials", response_model=List[FinancialMetricResponse])
 def get_financials(company_id: str, db: Session = Depends(get_db)):
     """Get extracted financial metrics for a company."""
+    _validate_uuid(company_id)
     metrics = (
         db.query(FinancialMetric)
         .filter(FinancialMetric.company_id == company_id)
@@ -257,6 +285,7 @@ def run_research_agent(
 @router.get("/companies/{company_id}/research", response_model=List[ResearchFindingResponse])
 def get_research(company_id: str, db: Session = Depends(get_db)):
     """Get research findings for a company."""
+    _validate_uuid(company_id)
     return (
         db.query(ResearchFinding)
         .filter(ResearchFinding.company_id == company_id)
@@ -321,6 +350,7 @@ def run_promoter_analysis(
 @router.get("/companies/{company_id}/promoters", response_model=List[PromoterAnalysisResponse])
 def get_promoter_analyses(company_id: str, db: Session = Depends(get_db)):
     """Get promoter analyses for a company."""
+    _validate_uuid(company_id)
     return (
         db.query(PromoterAnalysis)
         .filter(PromoterAnalysis.company_id == company_id)
@@ -363,6 +393,7 @@ def detect_early_warning(
 @router.get("/companies/{company_id}/risk-flags", response_model=List[RiskFlagResponse])
 def get_risk_flags(company_id: str, db: Session = Depends(get_db)):
     """Get all risk flags for a company."""
+    _validate_uuid(company_id)
     return (
         db.query(RiskFlag)
         .filter(RiskFlag.company_id == company_id)
@@ -398,6 +429,7 @@ def calculate_risk_score(
 @router.get("/companies/{company_id}/risk-score")
 def get_risk_score(company_id: str, db: Session = Depends(get_db)):
     """Get the latest risk score for a company. Returns null if none calculated."""
+    _validate_uuid(company_id)
     score = (
         db.query(RiskScore)
         .filter(RiskScore.company_id == company_id)
@@ -418,6 +450,7 @@ def update_due_diligence(
     db: Session = Depends(get_db),
 ):
     """Update due diligence notes for a company's risk score."""
+    _validate_uuid(company_id)
     score = (
         db.query(RiskScore)
         .filter(RiskScore.company_id == company_id)
@@ -441,6 +474,7 @@ def update_due_diligence(
 @router.get("/generate-cam-report")
 def generate_cam_report(company_id: str, db: Session = Depends(get_db)):
     """Generate and download the Credit Appraisal Memo (CAM) report."""
+    _validate_uuid(company_id)
     company = db.query(Company).filter(Company.id == company_id).first()
     if not company:
         raise HTTPException(status_code=404, detail="Company not found")
@@ -457,7 +491,7 @@ def generate_cam_report(company_id: str, db: Session = Depends(get_db)):
         )
     except Exception as e:
         logger.error(f"CAM report generation failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Report generation failed: {str(e)}")
+        raise HTTPException(status_code=500, detail="Report generation failed. Check server logs for details.")
 
 
 # ─── Dashboard Summary ───
@@ -465,6 +499,7 @@ def generate_cam_report(company_id: str, db: Session = Depends(get_db)):
 @router.get("/companies/{company_id}/dashboard-summary")
 def get_dashboard_summary(company_id: str, db: Session = Depends(get_db)):
     """Get a complete dashboard summary for a company."""
+    _validate_uuid(company_id)
     company = db.query(Company).filter(Company.id == company_id).first()
     if not company:
         raise HTTPException(status_code=404, detail="Company not found")
@@ -509,6 +544,7 @@ def get_dashboard_summary(company_id: str, db: Session = Depends(get_db)):
 @router.get("/companies/{company_id}/documents", response_model=List[DocumentResponse])
 def get_documents(company_id: str, db: Session = Depends(get_db)):
     """Get all documents for a company."""
+    _validate_uuid(company_id)
     return (
         db.query(Document)
         .filter(Document.company_id == company_id)
@@ -634,12 +670,13 @@ def generate_swot(
         )
     except Exception as e:
         logger.error(f"SWOT generation failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="SWOT generation failed. Check server logs for details.")
 
 
 @router.get("/companies/{company_id}/swot", response_model=List[SWOTResponse])
 def get_swot(company_id: str, db: Session = Depends(get_db)):
     """Get SWOT analyses for a company."""
+    _validate_uuid(company_id)
     return (
         db.query(SWOTAnalysis)
         .filter(SWOTAnalysis.company_id == company_id)
@@ -671,7 +708,7 @@ def run_agent_pipeline(
         )
     except Exception as e:
         logger.error(f"Agent pipeline failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Agent pipeline failed. Check server logs for details.")
 
 
 @router.post("/run-single-agent", response_model=StatusResponse)
@@ -700,4 +737,4 @@ def run_single_agent(
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Single agent '{agent_name}' failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Agent '{agent_name}' failed. Check server logs for details.")

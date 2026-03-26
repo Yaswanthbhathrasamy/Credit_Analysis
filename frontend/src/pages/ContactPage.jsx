@@ -20,6 +20,8 @@ export default function ContactPage() {
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
+      // TODO: Wire to backend API endpoint when available (e.g., POST /api/contact)
+      console.info('Contact form submitted:', { name: form.name, email: form.email, subject: form.subject });
       setSubmitted(true);
     }
   };
